@@ -3,6 +3,7 @@ import { BANDS, bandFromRaw, widthFromRaw, phyModeName, channelToFreq, centerCha
 import { createSeries, pushSample, windowOf, stats, toCsv } from './lib/series.js';
 import { createNeedle, stepNeedle } from './lib/needle.js';
 import { humpPoints, networksInBand, congestion, FLOOR_DBM } from './lib/spectrum.js';
+import { createDemo } from './lib/demo.js';
 
 const DBM_MIN = -100;
 const DBM_MAX = -20;
@@ -81,10 +82,26 @@ export function receive(msg) {
   }
 }
 
+// サーバーが無い（Vercel などの静的配信）ときは、ブラウザ内で作り物のデータを流す
+function startBrowserDemo() {
+  receive({ type: 'mode', mode: 'demo', reason: 'Web 版のデモです' });
+  $('web-demo').hidden = false;
+  createDemo(receive).start();
+}
+
 function connect() {
   const es = new EventSource('/events');
-  es.onmessage = (e) => receive(JSON.parse(e.data));
+  let gotAny = false;
+  es.onmessage = (e) => {
+    gotAny = true;
+    receive(JSON.parse(e.data));
+  };
   es.onerror = () => {
+    if (!gotAny) {
+      es.close();
+      startBrowserDemo();
+      return;
+    }
     state.mode = 'error';
     renderMode('サーバーとの接続が切れました（再接続を試みています）');
   };

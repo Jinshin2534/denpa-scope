@@ -29,6 +29,10 @@ h3 { font-size: 12px; margin: 16px 0 6px; color: var(--dim); font-weight: 600; }
 .badge.error { color: #fff; background: var(--red); border-color: var(--red); }
 @keyframes blink { 50% { opacity: 0.2; } }
 
+.web-demo { background: color-mix(in srgb, var(--amber) 14%, transparent); border: 1px solid color-mix(in srgb, var(--amber) 45%, transparent); color: var(--ink); border-radius: 10px; padding: 10px 14px; margin: 0 0 14px; font-size: 13px; }
+.web-demo a { color: var(--amber); }
+.web-demo code { font-family: var(--mono); background: #00000055; padding: 1px 5px; border-radius: 4px; }
+
 main { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 14px; }
 .panel { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 10px; padding: 14px; min-width: 0; }
 .scope-panel, .spectrum-panel { grid-column: 1 / -1; }
