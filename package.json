@@ -1,0 +1,13 @@
+{
+  "name": "denpa-scope",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Mac の Wi-Fi 受信電力をアナログ計器のように見るツール",
+  "scripts": {
+    "start": "node server.js",
+    "demo": "node server.js --demo",
+    "build:helper": "swiftc -O helper/wifi-probe.swift -o bin/wifi-probe",
+    "test": "node --test test/*.test.js"
+  }
+}

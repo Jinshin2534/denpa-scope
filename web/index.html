@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>電波スコープ</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand">
+      <h1>電波スコープ</h1>
+      <p class="sub">Mac が受け取っている Wi-Fi の電波を、針と波形で</p>
+    </div>
+    <div class="status">
+      <span id="mode" class="badge">接続待ち</span>
+      <span id="iface" class="dim"></span>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel meter-panel">
+      <h2>受信強度 <span class="dim">RSSI</span></h2>
+      <canvas id="meter" aria-label="RSSI のアナログメーター"></canvas>
+      <div class="meter-foot">
+        <span><span class="swatch peak"></span>直近10秒の最大</span>
+        <span><span class="swatch low"></span>最小</span>
+      </div>
+    </section>
+
+    <section class="panel readouts">
+      <h2>いまの値</h2>
+      <dl>
+        <div class="ro big"><dt>RSSI</dt><dd><b id="ro-rssi">--</b> dBm <small id="ro-rssi-label"></small></dd></div>
+        <div class="ro"><dt>受信電力</dt><dd id="ro-power">--</dd></div>
+        <div class="ro"><dt>ノイズ</dt><dd><b id="ro-noise">--</b> dBm</dd></div>
+        <div class="ro big"><dt>SNR</dt><dd><b id="ro-snr">--</b> dB <small id="ro-snr-label"></small></dd></div>
+        <div class="ro"><dt>送信レート</dt><dd><b id="ro-rate">--</b> Mbps</dd></div>
+        <div class="ro"><dt>チャンネル</dt><dd id="ro-channel">--</dd></div>
+        <div class="ro"><dt>規格</dt><dd id="ro-phy">--</dd></div>
+        <div class="ro"><dt>SSID</dt><dd id="ro-ssid">--</dd></div>
+      </dl>
+      <h3>表示中の時間幅での RSSI</h3>
+      <dl class="stats">
+        <div><dt>平均</dt><dd id="st-mean">--</dd></div>
+        <div><dt>最小</dt><dd id="st-min">--</dd></div>
+        <div><dt>最大</dt><dd id="st-max">--</dd></div>
+        <div><dt>揺れ σ</dt><dd id="st-std">--</dd></div>
+      </dl>
+    </section>
+
+    <section class="panel scope-panel">
+      <div class="panel-head">
+        <h2>波形 <span class="dim">0.1 秒ごとの実測</span></h2>
+        <div class="controls">
+          <div class="seg" role="group" aria-label="時間幅">
+            <button data-tb="10">10秒</button>
+            <button data-tb="30" class="on">30秒</button>
+            <button data-tb="60">1分</button>
+            <button data-tb="300">5分</button>
+          </div>
+          <button id="hold" class="btn">一時停止</button>
+          <button id="csv" class="btn">CSV保存</button>
+        </div>
+      </div>
+      <canvas id="scope" aria-label="RSSI とノイズの波形"></canvas>
+      <div class="legend">
+        <span><span class="swatch rssi"></span>RSSI（受信強度）</span>
+        <span><span class="swatch noise"></span>ノイズ</span>
+        <span><span class="swatch snr"></span>あいだの幅 = SNR</span>
+      </div>
+    </section>
+
+    <section class="panel spectrum-panel">
+      <div class="panel-head">
+        <h2>周りの電波 <span class="dim" id="scan-info">スキャン中…</span></h2>
+        <div class="seg" role="group" aria-label="周波数帯">
+          <button data-band="2.4">2.4 GHz</button>
+          <button data-band="5" class="on">5 GHz</button>
+          <button data-band="6">6 GHz</button>
+        </div>
+      </div>
+      <canvas id="spectrum" aria-label="周波数ごとの電波の山"></canvas>
+      <p id="ssid-note" class="note" hidden>
+        macOS は位置情報の許可がないアプリにネットワーク名(SSID)を渡しません。チャンネル・幅・強さは実測です。
+      </p>
+      <table class="nets">
+        <thead><tr><th>名前</th><th>ch</th><th>幅</th><th>強さ</th><th>重なり</th></tr></thead>
+        <tbody id="net-rows"></tbody>
+      </table>
+    </section>
+  </main>
+
+  <footer>
+    <p>RSSI は電波の強さ（0 に近いほど強い）。ノイズは周りの雑音の強さ。SNR はその差で、大きいほど通信が安定します。</p>
+  </footer>
+  <script type="module" src="app.js"></script>
+</body>
+</html>
