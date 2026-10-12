@@ -95,6 +95,42 @@
         <tbody id="net-rows"></tbody>
       </table>
     </section>
+    <section class="panel inside-panel">
+      <div class="panel-head">
+        <h2>受信の内側 <span class="dim">電波が「データ」になるまでの 4 段</span></h2>
+        <label class="slider">試しに雑音を足す
+          <input id="extra-noise" type="range" min="0" max="30" step="1" value="0" aria-label="追加する雑音 (dB)">
+          <output id="extra-noise-out">+0 dB</output>
+        </label>
+      </div>
+      <p class="lead" id="inside-lead">接続中の電波を待っています…</p>
+      <div class="stages">
+        <article class="stage">
+          <h3><span class="num">1</span>アンテナに届く電力</h3>
+          <canvas id="st-power" aria-label="自分の親機・混信・雑音の電力"></canvas>
+          <p class="cap" id="cap-power"></p>
+        </article>
+        <article class="stage">
+          <h3><span class="num">2</span>順番待ち <span class="dim">CSMA/CA</span></h3>
+          <canvas id="st-air" aria-label="同じチャンネルの送信の順番"></canvas>
+          <p class="cap" id="cap-air"></p>
+        </article>
+        <article class="stage">
+          <h3><span class="num">3</span>復調 <span class="dim">星座図</span></h3>
+          <canvas id="st-qam" aria-label="受信した記号の星座図"></canvas>
+          <p class="cap" id="cap-qam"></p>
+        </article>
+        <article class="stage">
+          <h3><span class="num">4</span>速度</h3>
+          <canvas id="st-rate" aria-label="規格上の速度と実効速度の目安"></canvas>
+          <p class="cap" id="cap-rate"></p>
+        </article>
+      </div>
+      <p class="note-dim">
+        ①④の数値は実測（RSSI・ノイズ・送信レート・スキャン結果）からの計算。②は実測した台数で動かすシミュレーション、③は実測 SINR ぶんの雑音を足した再現です。
+        「順番待ち」「混信」の線引きは 802.11 の受信感度（-82 / -62 dBm）に沿った目安で、相手が実際にどれだけ送っているかは Mac からは見えません。
+      </p>
+    </section>
   </main>
 
   <footer>

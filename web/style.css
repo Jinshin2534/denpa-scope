@@ -35,7 +35,7 @@ h3 { font-size: 12px; margin: 16px 0 6px; color: var(--dim); font-weight: 600; }
 
 main { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 14px; }
 .panel { background: var(--panel); border: 1px solid var(--panel-edge); border-radius: 10px; padding: 14px; min-width: 0; }
-.scope-panel, .spectrum-panel { grid-column: 1 / -1; }
+.scope-panel, .spectrum-panel, .inside-panel { grid-column: 1 / -1; }
 .panel-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 8px; }
 .panel-head h2 { margin: 0; }
 canvas { display: block; width: 100%; }
@@ -83,9 +83,31 @@ button:focus-visible { outline: 2px solid var(--phosphor); outline-offset: 1px; 
 .bar { display: inline-block; height: 8px; border-radius: 2px; background: var(--phosphor); vertical-align: 0; margin-right: 6px; }
 .chip { display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 6px; }
 
+.lead { margin: 0 0 12px; font-size: 13px; }
+.lead b { color: var(--phosphor); }
+.lead .warn { color: var(--amber); }
+.stages { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+.stage { position: relative; background: #0f1412; border: 1px solid var(--panel-edge); border-radius: 8px; padding: 10px; min-width: 0; }
+.stage + .stage::before { content: '→'; position: absolute; left: -12px; top: 8px; width: 12px; text-align: center; color: var(--dim); font-size: 12px; }
+.stage h3 { margin: 0 0 6px; color: var(--ink); font-size: 13px; }
+.num { display: inline-grid; place-items: center; width: 18px; height: 18px; border-radius: 50%; background: var(--phosphor); color: #08130c; font-size: 11px; font-weight: 700; margin-right: 6px; }
+.stage canvas { height: 190px; }
+.cap { font-size: 12px; color: var(--dim); margin: 6px 0 0; line-height: 1.55; }
+.cap b { color: var(--ink); font-weight: 600; }
+.note-dim { font-size: 11px; color: var(--dim); margin: 10px 0 0; }
+.slider { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; color: var(--dim); }
+.slider input { accent-color: var(--amber); width: 140px; }
+.slider output { font-family: var(--mono); color: var(--amber); min-width: 46px; }
+
 footer { color: var(--dim); font-size: 12px; margin-top: 16px; }
 
+@media (max-width: 1100px) {
+  .stages { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stage:nth-child(3)::before { display: none; }
+}
 @media (max-width: 800px) {
+  .stages { grid-template-columns: minmax(0, 1fr); }
+  .stage + .stage::before { display: none; }
   body { padding: 16px; }
   main { grid-template-columns: minmax(0, 1fr); }
   #meter { height: 240px; }

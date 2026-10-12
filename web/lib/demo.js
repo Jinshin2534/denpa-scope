@@ -2,6 +2,11 @@
 export function createDemo(send) {
   const nets = [
     { ssid: 'home-5G', channel: 44, band: 2, width: 3, base: -58 },
+    { ssid: 'home-5G-guest', channel: 44, band: 2, width: 3, base: -58 },
+    { ssid: 'apt-201', channel: 44, band: 2, width: 3, base: -71 },
+    { ssid: 'apt-305', channel: 44, band: 2, width: 2, base: -77 },
+    { ssid: 'shop-free', channel: 40, band: 2, width: 1, base: -79 },
+    { ssid: 'apt-102', channel: 44, band: 2, width: 1, base: -88 },
     { ssid: 'home-2G', channel: 6, band: 1, width: 1, base: -55 },
     { ssid: 'neighbor-a', channel: 1, band: 1, width: 1, base: -78 },
     { ssid: 'neighbor-b', channel: 11, band: 1, width: 1, base: -84 },

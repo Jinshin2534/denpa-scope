@@ -4,6 +4,7 @@ import { createSeries, pushSample, windowOf, stats, toCsv } from './lib/series.j
 import { createNeedle, stepNeedle } from './lib/needle.js';
 import { humpPoints, networksInBand, congestion, FLOOR_DBM } from './lib/spectrum.js';
 import { createDemo } from './lib/demo.js';
+import { createInside } from './inside.js';
 
 const DBM_MIN = -100;
 const DBM_MAX = -20;
@@ -652,6 +653,7 @@ function tick(dt) {
     drawSpectrum();
     state.spectrumDirty = false;
   }
+  if (!state.hold) inside.update(dt);
   if (performance.now() - lastReadout > 100) {
     lastReadout = performance.now();
     renderReadouts(now);
@@ -659,8 +661,10 @@ function tick(dt) {
   }
 }
 
+const inside = createInside(() => state);
+
 // ヘッドレス検証用
-window.__app = { state, receive, tick, groupNets };
+window.__app = { state, receive, tick, groupNets, inside };
 
 connect();
 requestAnimationFrame(frame);
